@@ -36,14 +36,18 @@ def suma(n1, n2):
 def despedida():
     return "<h2>Chau</h2>"
 
+@app.route("/chau/<string:nombre>")
+def despedir_con_nombre(nombre):
+    return f"<h2>Chau {nombre} </h2>"
+
 @app.route("/palindromo/<string:palabra>")
 def es_palindromo(palabra):
     palabra = palabra.lower().replace(" ", "")
     verificacion = palabra == palabra[::-1]
-    if verificacion == True:
-        verificarPalindromo = "es un palíndromo."
-    elif verificacion == False:
-        verificarPalindromo = "no es un palíndromo"
-    return f"<h2>La palabra {palabra} {verificarPalindromo}</h2>"
+    if verificacion:
+        verificarPalindromo = "es"
+    else:
+        verificarPalindromo = "no es"
+    return f"<h2>La palabra '{palabra}' {verificarPalindromo} un palíndromo.</h2>"
 
 
