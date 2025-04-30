@@ -77,6 +77,22 @@ def testDelete(id):
     cerrarConexion()
     return f"Se borro el id '{id}' en la tabla usuarios. Ahora hay '{registros}' usuarios"
 
+@app.route("/sqlite/cambiar-mail/<string:usuario>/<string:nuevo_email>")
+def testUpdate(usuario, nuevo_email):
+    conexion = abrirConexion()
+    cursor = conexion.cursor()
+    cursor.execute("SELECT email FROM usuarios WHERE usuario=?", (usuario,))
+    res = cursor.fetchone()
+    email_antiguo = res["email"] if res else "No encontrado"
+    db.execute("UPDATE usuarios SET email=? WHERE usuario=?", (nuevo_email, usuario,))
+    db.commit()  # Guarda los cambios
+    cursor.execute("SELECT email FROM usuarios WHERE usuario=?", (usuario,))
+    res = cursor.fetchone()
+    email_actualizado = res["email"] if res else "No encontrado"
+    cerrarConexion()
+    return f"Se actualizó el email de '{usuario}': de '{email_antiguo}' a '{email_actualizado}'"
+#by papu
+
 # Devuelve los datos de un usuario por ID
 @app.route("/sqlite/detalle/<int:id>")
 def testDetalle(id):
