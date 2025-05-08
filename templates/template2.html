@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lista de Usuarios</title>
+  </head>
+  <body>
+    {% for usr in usuarios %}
+    <a href="{{ url_for('mostrar_datos_template', usuario_id=usr['id']) }}"
+      >{{ usr['usuario'] }}</a
+    >
+    {% endfor %}
+  </body>
+</html>

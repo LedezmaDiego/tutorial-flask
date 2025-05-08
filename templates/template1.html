@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Document</title>
+  </head>
+  <body>
+    {% if usuario == None %}
+    <h1 style="color: red">No existe el usuario {{id}}</h1>
+
+    {% else %}
+    <h1>Información del ID Nº{{id}}</h1>
+    <h2>Nombre: {{usuario}}</h2>
+    <h2>Mail: ({{email}})</h2>
+    <h2>Télefono: ({{telefono}})</h2>
+    <h2>Dirección: ({{direccion}})</h2>
+
+    {% endif %}
+  </body>
+</html>
