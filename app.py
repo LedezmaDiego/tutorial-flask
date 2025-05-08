@@ -120,6 +120,9 @@ def obtener_usuario_por_id(usuario_id):
 # Templates
 # ----------------------
 
+
+# with ... as ...: : es una forma elegante de cerrar automaticamente un proceso
+
 @app.route("/sqlite/detalle/<int:usuario_id>")
 def mostrar_datos_template(usuario_id):
     with obtener_conexion() as conexion:
@@ -127,16 +130,24 @@ def mostrar_datos_template(usuario_id):
         cursor.execute("SELECT id, usuario, email, telefono, direccion FROM usuarios WHERE id=?", (usuario_id,))
         usuario = cursor.fetchone()
     if usuario:
-        return render_template("template1.html", **usuario)
+        return render_template("template1.html", **usuario) 
     return "Usuario no encontrado"
+
+# **usuario: Hace que cada clave del diccionario se transforme
+# en una variable dentro del template
 
 @app.route("/sqlite/enlaces")
 def mostrar_links_usuarios():
     with obtener_conexion() as conexion:
         cursor = conexion.cursor()
         cursor.execute("SELECT id, usuario FROM usuarios")
-        usuarios = cursor.fetchall()
-    return render_template("template2.html", usuarios=usuarios)
+        lista_de_usuarios = cursor.fetchall()
+    return render_template("template2.html", usuarios=lista_de_usuarios)
 
-if __name__ == '__main__':
-    app.run(debug=True, threaded=False)
+# 'usuarios' (a la izquierda del igual) es el nombre de la 
+# variable que se usará dentro del HTML template.
+# 'lista_de_usuarios' (a la derecha) es la variable de Python
+# que ya tenés en tu código.
+
+# if __name__ == '__main__':
+#     app.run(debug=True, threaded=False)
