@@ -12,30 +12,28 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     """Página principal con enlaces a otras secciones."""
-    url_inicio = url_for("mostrar_inicio")
-    url_medio = url_for("mostrar_saludo")
+    url_saludo = url_for("mostrar_saludo")
     return f'''
-        <a href="{url_inicio}">Inicio</a>
-        <div></div>
-        <a href="{url_medio}">Medio</a>
-        <button onclick="window.location.href='/tercero'">Final</button>
+        <a href="{url_saludo}">Saludo</a>
+        <br>
+        <a href="{url_for("mostrar_despedida")}">Despedida</a>
     '''
 
-@app.route("/primero")
-def mostrar_inicio():
-    return "<h2>Hola</h2>"
-
-@app.route("/segundo")
+@app.route("/saludo")
 def mostrar_saludo():
     return "<h2>¡Saludos, persona amable!</h2>"
 
-@app.route("/tercero")
+@app.route("/despedida")
 def mostrar_despedida():
-    return "<a target='_blank'>Nos vemos</a>"
+    return "<h2>¡Nos vemos, persona agradable!</h2>"
 
-@app.route("/tercero/<string:nombre>")
+@app.route("/saludo/<string:nombre>")
+def saludo_personalizado(nombre):
+    return f"<h2>¡Saludos, {nombre}!</h2>"
+
+@app.route("/despedida/<string:nombre>")
 def despedida_personalizada(nombre):
-    return f"<h2>Nos vemos, {nombre}</h2>"
+    return f"<h2>¡Nos vemos, {nombre}!</h2>"
 
 @app.route("/dado/<int:caras>")
 def tirar_dado(caras):
@@ -44,13 +42,23 @@ def tirar_dado(caras):
 
 @app.route("/sumar/<int:n1>/<int:n2>")
 def sumar(n1, n2):
-    return f"<h2>La suma de {n1} y {n2} es {n1 + n2}</h2>"
+    return f"<h2>La suma de {n1} y {n2} es {n1+n2}</h2>"
 
 @app.route("/division/<int:n1>/<int:n2>")
 def dividir(n1, n2):
     if n2 == 0:
         return "<h2>No se puede dividir por cero</h2>"
-    return f"<h2>La división de {n1} entre {n2} es {n1 / n2}</h2>"
+    return f"<h2>La división de {n1} entre {n2} es {n1/n2}</h2>"
+
+@app.route("/espalindromo/<string:palabra>")
+def es_palindromo(palabra):
+    palabra = palabra.lower()
+    palabra = ''.join(filter(str.isalnum, palabra))
+    if palabra == palabra[::-1]:
+        return f"<h2>La palabra {palabra} es palindromo</h2>"
+    else:
+        return f"<h2>La palabra {palabra} no es palindromo</h2>"
+    
 
 # ----------------------
 # Funciones auxiliares de SQLite
